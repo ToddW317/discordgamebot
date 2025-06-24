@@ -15,19 +15,33 @@ module.exports = {
         const guildId = interaction.guildId;
         const userId = interaction.user.id;
         
+        // Ensure data directory exists
+        const dataDir = path.join(__dirname, '..', '..', 'data');
+        if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+        }
+        
         // Path to the games data file
-        const dataPath = path.join(__dirname, '..', '..', 'data', `games_${guildId}.json`);
+        const dataPath = path.join(dataDir, `games_${guildId}.json`);
         
         // Load existing games or create new object
-        let gamesData = {};
+        let gamesData = { games: [], votes: {} };
         if (fs.existsSync(dataPath)) {
-            const rawData = fs.readFileSync(dataPath);
-            gamesData = JSON.parse(rawData);
+            try {
+                const rawData = fs.readFileSync(dataPath, 'utf8');
+                gamesData = JSON.parse(rawData);
+            } catch (error) {
+                console.error('Error reading games data:', error);
+                gamesData = { games: [], votes: {} };
+            }
         }
         
         // Initialize guild games if not exists
         if (!gamesData.games) {
             gamesData.games = [];
+        }
+        if (!gamesData.votes) {
+            gamesData.votes = {};
         }
         
         // Check if game already exists
