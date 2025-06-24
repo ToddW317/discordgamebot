@@ -1,0 +1,21 @@
+{
+  "name": "discord-game-selector-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that helps select random games for the party to play",
+  "main": "railway-start.js",
+  "scripts": {
+    "start": "node railway-start.js",
+    "deploy": "node deploy-commands.js",
+    "build": "npm install && node deploy-commands.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": ["discord", "bot", "games"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.7"
+  }
+} 
